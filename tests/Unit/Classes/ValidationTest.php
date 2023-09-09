@@ -128,4 +128,42 @@ class ValidationTest extends TestCase
         $validation = new Validation();
         $validation->validateConfig();
     }
+
+    /** @test */
+    public function exception_is_thrown_if_the_default_redirect_status_code_params_variable_is_not_an_integer()
+    {
+        $this->expectException(ValidationException::class);
+        $this->expectExceptionMessage('The default_redirect_status_code config variable must be a 301, 302, 303, 307, 308, or null.');
+
+        Config::set('short-url.default_redirect_status_code', 'INVALID');
+
+        $validation = new Validation();
+        $validation->validateConfig();
+    }
+
+    /** @test */
+    public function exception_is_thrown_if_the_default_redirect_status_code_params_variable_is_not_a_valid_redirect_http_status_code()
+    {
+        $this->expectException(ValidationException::class);
+        $this->expectExceptionMessage('The default_redirect_status_code config variable must be a 301, 302, 303, 307, 308, or null.');
+
+        Config::set('short-url.default_redirect_status_code', -100);
+
+        $validation = new Validation();
+        $validation->validateConfig();
+    }
+
+    /** @test */
+    public function config_validation_passes_if_the_default_redirect_status_code_params_variable_is_null()
+    {
+        Config::set('short-url.default_redirect_status_code', null);
+
+        $validation = new Validation();
+
+        try {
+            $this->assertTrue($validation->validateConfig());
+        } catch (\Exception $exception) {
+            $this->fail('validateConfig unexpectedly threw an exception when it should have returned true');
+        }
+    }
 }
