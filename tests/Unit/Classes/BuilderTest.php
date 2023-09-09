@@ -35,10 +35,10 @@ class BuilderTest extends TestCase
     }
 
     /** @test */
-    public function exception_is_thrown_if_the_destination_url_does_not_begin_with_http_or_https()
+    public function exception_is_thrown_if_the_destination_url_does_not_begin_with_http_https_mailto_or_tel()
     {
         $this->expectException(ShortURLException::class);
-        $this->expectExceptionMessage('The destination URL must begin with http:// or https://');
+        $this->expectExceptionMessage('The destination URL must begin with http://, https://, mailto:, or tel:');
 
         $builder = new Builder();
         $builder->destinationUrl('INVALID');

@@ -235,8 +235,8 @@ class Builder
      */
     public function destinationUrl(string $url): self
     {
-        if (! Str::startsWith($url, ['http://', 'https://'])) {
-            throw new ShortURLException('The destination URL must begin with http:// or https://');
+        if (! Str::startsWith($url, ['http://', 'https://', 'mailto:', 'tel:'])) {
+            throw new ShortURLException('The destination URL must begin with http://, https://, mailto:, or tel:');
         }
 
         $this->destinationUrl = $url;
