@@ -79,7 +79,7 @@ class Builder
      *
      * @var int
      */
-    protected $redirectStatusCode = 301;
+    protected $redirectStatusCode;
 
     /**
      * Whether or not the visitor's IP address should
@@ -588,6 +588,10 @@ class Builder
             $this->activateAt = now();
         }
 
+        if (! $this->redirectStatusCode) {
+            $this->redirectStatusCode = (int) (config('short-url.default_redirect_status_code') ?? 301);
+        }
+
         $this->setTrackingOptions();
     }
 
@@ -645,8 +649,7 @@ class Builder
         $this->singleUse = false;
         $this->secure = null;
         $this->forwardQueryParams = null;
-        $this->redirectStatusCode = 301;
-
+        $this->redirectStatusCode = (int) (config('short-url.default_redirect_status_code') ?? 301);
         $this->trackVisits = null;
         $this->trackIPAddress = null;
         $this->trackOperatingSystem = null;
