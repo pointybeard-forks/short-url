@@ -185,4 +185,28 @@ return [
     |
     */
     'validate_config' => false,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Default ShortURL Model Table Name
+    |--------------------------------------------------------------------------
+    |
+    | Define the name of the table used by the ShortURL model and migration.
+    | Note that changing this will require changing the existing table
+    | or performing a wipe/rollback and migrate again.
+    |
+    */
+    'default_short_urls_table' => 'short_urls',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Default ShortURLVisit Model Table Name
+    |--------------------------------------------------------------------------
+    |
+    | Define the name of the table used by the ShortURLVisit model and migration.
+    | Note that changing this will require changing the existing table
+    | or performing a wipe/rollback and migrate again.
+    |
+    */
+    'default_short_url_visits_table' => 'short_url_visits',
 ];
