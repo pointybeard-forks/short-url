@@ -91,6 +91,8 @@ class ShortURLVisit extends Model
         if (config('short-url.connection')) {
             $this->setConnection(config('short-url.connection'));
         }
+
+        $this->table = config('short-url.default_short_url_visits_table', 'short_url_visits');
     }
 
     /**

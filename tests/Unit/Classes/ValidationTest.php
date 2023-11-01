@@ -142,6 +142,18 @@ class ValidationTest extends TestCase
     }
 
     /** @test */
+    public function exception_is_thrown_if_the_default_short_urls_table_name_params_variable_is_not_a_valid_string_or_null()
+    {
+        $this->expectException(ValidationException::class);
+        $this->expectExceptionMessage('The default_short_urls_table config variable must be a string or null.');
+
+        Config::set('short-url.default_short_urls_table', -100);
+
+        $validation = new Validation();
+        $validation->validateConfig();
+    }
+
+    /** @test */
     public function exception_is_thrown_if_the_default_redirect_status_code_params_variable_is_not_a_valid_redirect_http_status_code()
     {
         $this->expectException(ValidationException::class);
@@ -157,6 +169,46 @@ class ValidationTest extends TestCase
     public function config_validation_passes_if_the_default_redirect_status_code_params_variable_is_null()
     {
         Config::set('short-url.default_redirect_status_code', null);
+
+        $validation = new Validation();
+
+        try {
+            $this->assertTrue($validation->validateConfig());
+        } catch (\Exception $exception) {
+            $this->fail('validateConfig unexpectedly threw an exception when it should have returned true');
+        }
+    }
+
+    /** @test */
+    public function config_validation_passes_if_the_default_short_urls_table_name_params_variable_is_null()
+    {
+        Config::set('short-url.default_short_urls_table', null);
+
+        $validation = new Validation();
+
+        try {
+            $this->assertTrue($validation->validateConfig());
+        } catch (\Exception $exception) {
+            $this->fail('validateConfig unexpectedly threw an exception when it should have returned true');
+        }
+    }
+
+    /** @test */
+    public function exception_is_thrown_if_the_default_short_url_visits_table_name_params_variable_is_not_a_valid_string_or_null()
+    {
+        $this->expectException(ValidationException::class);
+        $this->expectExceptionMessage('The default_short_url_visits_table config variable must be a string or null.');
+
+        Config::set('short-url.default_short_url_visits_table', -100);
+
+        $validation = new Validation();
+        $validation->validateConfig();
+    }
+
+    /** @test */
+    public function config_validation_passes_if_the_default_short_url_visits_table_name_params_variable_is_null()
+    {
+        Config::set('short-url.default_short_url_visits_table', null);
 
         $validation = new Validation();
 
