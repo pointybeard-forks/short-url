@@ -22,7 +22,9 @@ class Validation
                && $this->validateKeySalt()
                && $this->validateEnforceHttpsOption()
                && $this->validateForwardQueryParamsOption()
-               && $this->validateDefaultUrl();
+               && $this->validateDefaultUrl()
+               && $this->validateDefaultShortURLModelTableName()
+               && $this->validateDefaultShortURLVisitModelTableName();
     }
 
     /**
@@ -159,6 +161,44 @@ class Validation
 
         if (! $isValid) {
             throw new ValidationException('The default_url config variable must be a string or null.');
+        }
+
+        return true;
+    }
+
+    /**
+     * Validate that the default ShortURL model table name is string or null
+     *
+     * @return bool
+     *
+     * @throws ValidationException
+     */
+    protected function validateDefaultShortURLModelTableName(): bool
+    {
+        $defaultUrl = config('short-url.default_short_urls_table');
+        $isValid = is_string($defaultUrl) || is_null($defaultUrl);
+
+        if (! $isValid) {
+            throw new ValidationException('The default_short_urls_table config variable must be a string or null.');
+        }
+
+        return true;
+    }
+
+    /**
+     * Validate that the default ShortURLVisit model table name is string or null
+     *
+     * @return bool
+     *
+     * @throws ValidationException
+     */
+    protected function validateDefaultShortURLVisitModelTableName(): bool
+    {
+        $defaultUrl = config('short-url.default_short_url_visits_table');
+        $isValid = is_string($defaultUrl) || is_null($defaultUrl);
+
+        if (! $isValid) {
+            throw new ValidationException('The default_short_url_visits_table config variable must be a string or null.');
         }
 
         return true;
