@@ -22,7 +22,8 @@ class Validation
                && $this->validateKeySalt()
                && $this->validateEnforceHttpsOption()
                && $this->validateForwardQueryParamsOption()
-               && $this->validateDefaultUrl();
+               && $this->validateDefaultUrl()
+               && $this->validateDefaultRedirectStatusCodeOption();
     }
 
     /**
@@ -159,6 +160,25 @@ class Validation
 
         if (! $isValid) {
             throw new ValidationException('The default_url config variable must be a string or null.');
+        }
+
+        return true;
+    }
+
+    /**
+     * Validate that the default redirection status code option 301, 302, 303, 307, 308, or null.
+     *
+     * @return bool
+     *
+     * @throws ValidationException
+     */
+    protected function validateDefaultRedirectStatusCodeOption(): bool
+    {
+        $defaultStatusCode = config('short-url.default_redirect_status_code');
+        $isValid = in_array($defaultStatusCode, [301, 302, 303, 307, 308], strict: true) || is_null($defaultStatusCode);
+
+        if (! $isValid) {
+            throw new ValidationException('The default_redirect_status_code config variable must be a 301, 302, 303, 307, 308, or null.');
         }
 
         return true;

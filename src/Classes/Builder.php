@@ -80,7 +80,7 @@ class Builder
      *
      * @var int
      */
-    protected $redirectStatusCode = 301;
+    protected $redirectStatusCode;
 
     /**
      * Whether or not the visitor's IP address should
@@ -244,8 +244,8 @@ class Builder
      */
     public function destinationUrl(string $url): self
     {
-        if (! Str::startsWith($url, ['http://', 'https://'])) {
-            throw new ShortURLException('The destination URL must begin with http:// or https://');
+        if (! Str::startsWith($url, ['http://', 'https://', 'mailto:', 'tel:'])) {
+            throw new ShortURLException('The destination URL must begin with http://, https://, mailto:, or tel:');
         }
 
         $this->destinationUrl = $url;
@@ -622,6 +622,10 @@ class Builder
             $this->activateAt = now();
         }
 
+        if (! $this->redirectStatusCode) {
+            $this->redirectStatusCode = (int) (config('short-url.default_redirect_status_code') ?? 301);
+        }
+
         $this->setTrackingOptions();
     }
 
@@ -679,8 +683,7 @@ class Builder
         $this->singleUse = false;
         $this->secure = null;
         $this->forwardQueryParams = null;
-        $this->redirectStatusCode = 301;
-
+        $this->redirectStatusCode = (int) (config('short-url.default_redirect_status_code') ?? 301);
         $this->trackVisits = null;
         $this->trackIPAddress = null;
         $this->trackOperatingSystem = null;

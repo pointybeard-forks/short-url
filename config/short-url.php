@@ -185,4 +185,15 @@ return [
     |
     */
     'validate_config' => false,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Default Redirect Status Code
+    |--------------------------------------------------------------------------
+    |
+    | Define which 3XX code should be used by default when preforming URL
+    | redirection.
+    |
+    */
+    'default_redirect_status_code' => 301,
 ];
