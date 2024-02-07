@@ -37,13 +37,6 @@ class ShortURL extends Model
     use HasFactory;
 
     /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = 'short_urls';
-
-    /**
      * The attributes that are mass assignable.
      *
      * @var string[]
@@ -89,6 +82,8 @@ class ShortURL extends Model
         if (config('short-url.connection')) {
             $this->setConnection(config('short-url.connection'));
         }
+
+        $this->table = config('short-url.default_short_urls_table', 'short_urls');
     }
 
     /**
